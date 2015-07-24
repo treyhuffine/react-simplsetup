@@ -1,22 +1,30 @@
 var Hello = React.createClass({
   render: function() {
-    var names = ["Gerald", "Dan", "Trey", "Samer", "Sheryl", "Elijah", "Ryano"];
-    var greetings = ["Hello", "Welcome", "What's happenin"];
-
-    var hellos = [];
-
-    for (var i = 0; i < names.length; i++) {
-      hellos.push(<h1 key={i}>{greetings[i%greetings.length]} {names[i]}</h1>);
-    }
     return (
       <div>
-        {hellos}
+        {this.props.greet} {this.props.name}
       </div>
     );
   }
 });
 
+var App = React.createClass({
+  render: function() {
+    var component = this, collection = component.props.collection;
+
+    var greets = Object.keys(collection).map(function(person) {
+      return (<Hello name={person} greet={collection[person]} />);
+    });
+    return (
+      <div>
+        <h1>React Example</h1>
+        {greets}
+      </div>
+    )
+  }
+})
+
 React.render(
-  <div><Hello /></div>,
+  <div><App collection={ {gerald: 'hi', ryan: 'hello', trey: 'yo'} }/></div>,
   document.getElementById("root")
 );
