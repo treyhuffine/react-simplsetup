@@ -2,6 +2,7 @@ var React = require("react");
 
 var OneContact = React.createClass({
   handleChange: function(event) {
+    console.log(this.props.contact);
     this.props.updateContact(this.props.contact.listLocation, !this.props.contact.checked);
   },
   handleDelete: function(event) {
@@ -9,7 +10,7 @@ var OneContact = React.createClass({
     this.props.deleteContact(this.props.contact);
   },
   render: function() {
-    let uniqId = `cb-${this.props.index}`;
+    let uniqId = `cb-${this.props.contact.listLocation}`;
     return (
       <li className="collection-item">
         <p>

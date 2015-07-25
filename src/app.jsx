@@ -9,9 +9,35 @@ var App = React.createClass({
   getInitialState: function() {
     return { contacts: [] }
   },
-  greet: function(contact) {
+  componentDidMount: function() {
+    var ContactObject = Parse.Object.extend("ContactObject");
+    var query = new Parse.Query(ContactObject);
+    query.find({
+      success: (results) => {
+        console.log(results);
+        this.setState({
+          contacts: results.map(function(o) { return o.attributes; })
+        });
+      },
+      error: function(error) {
+        alert("Error: " + error.code + " " + error.message)
+      }
+    })
+  },
+  addContact: function(contact) {
     this.setState({
       contacts: this.state.contacts.concat(contact)
+    }, function() {
+      var ContactObject = Parse.Object.extend("ContactObject");
+      var parseContact = new ContactObject();
+      parseContact.save(contact, {
+        success: function(savedContact) {
+          console.log(savedContact);
+        },
+        error: function(savedContact, error) {
+          console.log(error);
+        }
+      });
     });
   },
   deleteContact: function(contact) {
@@ -52,7 +78,7 @@ var App = React.createClass({
       <div className={this.theme()}>
         <div className="container">
           <div style={this.style()}>Contact List</div>
-          <ContactForm greet={this.greet} />
+          <ContactForm addContact={this.addContact} />
           <hr />
           <ContactList contacts={this.state.contacts} deleteContact={this.deleteContact} updateContact={this.updateContact}/>
           <button type="button" className="btn" onClick={this.deleteAllSelected}>
@@ -66,6 +92,7 @@ var App = React.createClass({
 })
 
 document.addEventListener('DOMContentLoaded', function() {
+  Parse.initialize("MhQAr8s4VeQFOoY4SUsMf77jfIjfA0vTW9Ftsr8n", "aTKuQPMGcn6A7GxhQ9EKZ6vc83MCtfYz0OT1f8wR");
   ReactDOM.render(
     <div><App /></div>,
     document.getElementById("root")
