@@ -8,7 +8,7 @@ var GreetingForm = React.createClass({
   },
   render: function() {
     return (
-      <form onSubmit={this.handleSubmit} ref="userForm" className="card-panel grey lighten-3">
+      <form onSubmit={this.handleSubmit} ref="userForm" className="card-panel grey lighten-3 hoverable">
         <div className="input-field">
           <input type="text" ref="name2greet" required />
           <label htmlFor="name">Name</label>
