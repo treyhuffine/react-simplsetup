@@ -8,10 +8,18 @@ var GreetingForm = React.createClass({
   },
   render: function() {
     return (
-      <form onSubmit={this.handleSubmit} ref="userForm">
-        <input placeholder="Name" ref="name2greet" required />
-        <input type="email" placeholder="Email" ref="email2greet" required />
-        <button>Greet</button>
+      <form onSubmit={this.handleSubmit} ref="userForm" className="card-panel grey lighten-3">
+        <div className="input-field">
+          <input type="text" ref="name2greet" required />
+          <label htmlFor="name">Name</label>
+        </div>
+        <div className="input-field">
+          <input type="email" ref="email2greet" required />
+          <label htmlFor="email">Email</label>
+        </div>
+        <button className="btn-floating btn-large waves-effect green" type="submit">
+          <i className="material-icons">add</i>
+        </button>
       </form>
     )
   }
