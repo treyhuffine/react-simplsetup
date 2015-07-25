@@ -1,6 +1,6 @@
 var React = require("react");
 
-var OneContactGreeting = React.createClass({
+var OneContact = React.createClass({
   handleChange: function(event) {
     this.props.updateContact(this.props.contact.listLocation, !this.props.contact.checked);
   },
@@ -27,4 +27,4 @@ var OneContactGreeting = React.createClass({
 });
 
 
-module.exports = OneContactGreeting;
+module.exports = OneContact;

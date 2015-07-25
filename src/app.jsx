@@ -1,8 +1,8 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
 
-var ListOfGreetings = require("./components/ListOfGreetings");
-var GreetingForm = require("./components/GreetingForm");
+var ContactList = require("./components/ContactList");
+var ContactForm = require("./components/ContactForm");
 
 
 var App = React.createClass({
@@ -40,14 +40,24 @@ var App = React.createClass({
       console.log(this.state.contacts);
     })
   },
+  deleteAllSelected: function() {
+    var contacts = this.state.contacts;
+
+    this.setState({
+      contacts: contacts.filter(function(contact) { return !contact.checked; })
+    })
+  },
   render: function() {
     return (
       <div className={this.theme()}>
         <div className="container">
           <div style={this.style()}>Contact List</div>
-          <GreetingForm greet={this.greet} />
+          <ContactForm greet={this.greet} />
           <hr />
-          <ListOfGreetings contacts={this.state.contacts} deleteContact={this.deleteContact} updateContact={this.updateContact}/>
+          <ContactList contacts={this.state.contacts} deleteContact={this.deleteContact} updateContact={this.updateContact}/>
+          <button type="button" className="btn" onClick={this.deleteAllSelected}>
+            Delete All Selected
+          </button>
           <a href="#" onClick={this.toggleTheme}>Toggle Theme</a>
         </div>
       </div>
