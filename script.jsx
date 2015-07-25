@@ -1,19 +1,31 @@
 var OneUserGreeting = React.createClass({
+  handleDelete: function(event) {
+    event.preventDefault();
+    console.log(this.props.user);
+    this.props.deleteUser(this.props.user);
+  },
   render: function() {
-    return <li>Hello {this.props.name}</li>
+    return (
+      <li>
+        <a href={"mailto:" + this.props.user.email}>Hello {this.props.user.name} </a>
+        <span onClick={this.handleDelete}>Delete</span>
+      </li>
+    )
   }
 });
 
 var GreetingForm = React.createClass({
-  handleSubmit: function(e) {
-    e.preventDefault();
-    this.props.greet(this.refs.name2greet);
+  handleSubmit: function(event) {
+    event.preventDefault();
+    this.props.greet({name: this.refs.name2greet.value, email: this.refs.email2greet.value});
+    this.refs.userForm.reset();
   },
   render: function() {
     return (
-      <form>
-        <input placeholder="Name" ref="name2greet" />
-        <button onClick={this.handleSubmit}>Greet</button>
+      <form onSubmit={this.handleSubmit} ref="userForm">
+        <input placeholder="Name" ref="name2greet" required />
+        <input type="email" placeholder="Email" ref="email2greet" required />
+        <button>Greet</button>
       </form>
     )
   }
@@ -21,8 +33,10 @@ var GreetingForm = React.createClass({
 
 var ListOfGreetings = React.createClass({
   render: function() {
-    var usersLIs = this.props.users.map(function(name, i) {
-      return <OneUserGreeting name={name} key={i}/>
+    var deleteFunction = this.props.deleteUser;
+    var usersLIs = this.props.users.map(function(user, i) {
+      user.listLocation = i;
+      return <OneUserGreeting user={user} deleteUser={deleteFunction} key={i}/>
     });
     return (
       <div>
@@ -38,21 +52,23 @@ var App = React.createClass({
   getInitialState: function() {
     return { users: [] }
   },
-  // name: this.refs.name2greet
-  greet: function(nameInput) {
+  greet: function(user) {
     this.setState({
-      users: this.state.users.concat(nameInput.value)
-    }, function() {
-        nameInput.value = '';
-       }
-    );
+      users: this.state.users.concat(user)
+    });
+  },
+  deleteUser: function(user) {
+    console.log(user);
+    this.setState({
+      user: this.state.users.splice(user.listLocation, 1)
+    })
   },
   render: function() {
     return (
       <div>
         <GreetingForm greet={this.greet} />
         <hr />
-        <ListOfGreetings users={this.state.users} />
+        <ListOfGreetings users={this.state.users} deleteUser={this.deleteUser}/>
       </div>
     )
   }
