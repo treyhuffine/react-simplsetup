@@ -7,30 +7,49 @@ var GreetingForm = require("./components/GreetingForm");
 
 var App = React.createClass({
   getInitialState: function() {
-    return { users: [] }
+    return { contacts: [] }
   },
-  greet: function(user) {
+  greet: function(contact) {
     this.setState({
-      users: this.state.users.concat(user)
+      contacts: this.state.contacts.concat(contact)
     });
   },
-  deleteUser: function(user) {
+  deleteContact: function(contact) {
     this.setState({
-      user: this.state.users.splice(user.listLocation, 1)
+      contact: this.state.contacts.splice(contact.listLocation, 1)
     })
+  },
+  style: function() {
+    return {
+      color: localStorage.getItem("headerColor") || "green",
+      fontSize: 40
+    }
+  },
+  theme: function() {
+    return localStorage["theme"] || 'light';
+  },
+  toggleTheme: function(theme) {
+    localStorage["theme"] = this.theme() === "dark" ? "light" : "dark";
+    this.forceUpdate();
   },
   render: function() {
     return (
-      <div>
-        <GreetingForm greet={this.greet} />
-        <hr />
-        <ListOfGreetings users={this.state.users} deleteUser={this.deleteUser}/>
+      <div className={this.theme()}>
+        <div className="container">
+          <div style={this.style()}>Contact List</div>
+          <GreetingForm greet={this.greet} />
+          <hr />
+          <ListOfGreetings contacts={this.state.contacts} deleteContact={this.deleteContact}/>
+          <a href="#" onClick={this.toggleTheme}>Toggle Theme</a>
+        </div>
       </div>
     )
   }
 })
 
-React.render(
-  <div><App /></div>,
-  document.getElementById("root")
-);
+document.addEventListener('DOMContentLoaded', function() {
+  React.render(
+    <div><App /></div>,
+    document.getElementById("root")
+  );
+})
