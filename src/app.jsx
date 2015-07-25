@@ -32,6 +32,14 @@ var App = React.createClass({
     localStorage["theme"] = this.theme() === "dark" ? "light" : "dark";
     this.forceUpdate();
   },
+  updateContact: function(index, checked) {
+    var contacts = this.state.contacts;
+    contacts[index].checked = checked;
+
+    this.setState({contacts: contacts}, function() {
+      console.log(this.state.contacts);
+    })
+  },
   render: function() {
     return (
       <div className={this.theme()}>
@@ -39,7 +47,7 @@ var App = React.createClass({
           <div style={this.style()}>Contact List</div>
           <GreetingForm greet={this.greet} />
           <hr />
-          <ListOfGreetings contacts={this.state.contacts} deleteContact={this.deleteContact}/>
+          <ListOfGreetings contacts={this.state.contacts} deleteContact={this.deleteContact} updateContact={this.updateContact}/>
           <a href="#" onClick={this.toggleTheme}>Toggle Theme</a>
         </div>
       </div>
@@ -48,7 +56,7 @@ var App = React.createClass({
 })
 
 document.addEventListener('DOMContentLoaded', function() {
-  React.render(
+  ReactDOM.render(
     <div><App /></div>,
     document.getElementById("root")
   );

@@ -6,7 +6,7 @@ export default class ListOfGreetings extends React.Component {
     let deleteFunction = this.props.deleteContact;
     let contactsLIs = this.props.contacts.map((contact, i) => {
       contact.listLocation = i;
-      return <OneContactGreeting contact={contact} deleteContact={deleteFunction} key={i}/>
+      return <OneContactGreeting contact={contact} deleteContact={deleteFunction} updateContact={this.props.updateContact} key={i}/>
     });
     return (
       <div>
