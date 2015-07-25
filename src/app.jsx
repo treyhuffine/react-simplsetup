@@ -1,17 +1,7 @@
-var OneUserGreeting = React.createClass({
-  handleDelete: function(event) {
-    event.preventDefault();
-    this.props.deleteUser(this.props.user);
-  },
-  render: function() {
-    return (
-      <li>
-        <a href={"mailto:" + this.props.user.email}>Hello {this.props.user.name} </a>
-        <span onClick={this.handleDelete}>Delete</span>
-      </li>
-    )
-  }
-});
+var React = require("react");
+var ReactDOM = require("react-dom");
+
+var ListOfGreetings = require("./components/ListOfGreetings");
 
 var GreetingForm = React.createClass({
   handleSubmit: function(event) {
@@ -30,22 +20,6 @@ var GreetingForm = React.createClass({
   }
 });
 
-var ListOfGreetings = React.createClass({
-  render: function() {
-    var deleteFunction = this.props.deleteUser;
-    var usersLIs = this.props.users.map(function(user, i) {
-      user.listLocation = i;
-      return <OneUserGreeting user={user} deleteUser={deleteFunction} key={i}/>
-    });
-    return (
-      <div>
-        <ul>
-          {usersLIs}
-        </ul>
-      </div>
-    );
-  }
-});
 
 var App = React.createClass({
   getInitialState: function() {
