@@ -1,7 +1,6 @@
 var OneUserGreeting = React.createClass({
   handleDelete: function(event) {
     event.preventDefault();
-    console.log(this.props.user);
     this.props.deleteUser(this.props.user);
   },
   render: function() {
@@ -58,7 +57,6 @@ var App = React.createClass({
     });
   },
   deleteUser: function(user) {
-    console.log(user);
     this.setState({
       user: this.state.users.splice(user.listLocation, 1)
     })
