@@ -1,11 +1,9 @@
-var React = require("react");
-var ReactDOM = require("react-dom");
+import React from 'react'
 
-var ContactList = require("./components/ContactList");
-var ContactForm = require("./components/ContactForm");
+var ContactList = require("./ContactList");
+var ContactForm = require("./ContactForm");
 
-
-var App = React.createClass({
+export default React.createClass ({
   getInitialState: function() {
     return { contacts: [] }
   },
@@ -89,12 +87,4 @@ var App = React.createClass({
       </div>
     )
   }
-})
-
-document.addEventListener('DOMContentLoaded', function() {
-  Parse.initialize("MhQAr8s4VeQFOoY4SUsMf77jfIjfA0vTW9Ftsr8n", "aTKuQPMGcn6A7GxhQ9EKZ6vc83MCtfYz0OT1f8wR");
-  ReactDOM.render(
-    <div><App /></div>,
-    document.getElementById("root")
-  );
-})
+});
